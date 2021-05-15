@@ -1,4 +1,70 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
 body {
-  background-color: red; }
+  background-color: #403B49; }
+
+header .row .titulo {
+  margin: 20px 0;
+  display: flex;
+  align-items: center; }
+  header .row .titulo h1 {
+    font-family: "Newsreader:ital";
+    color: #FDE2FF; }
+    header .row .titulo h1 span {
+      font-size: 20px;
+      font-style: italic; }
+  header .row .titulo i {
+    color: #FDE2FF;
+    font-size: 40px;
+    margin-right: 20px; }
+
+main {
+  padding: 100px 0; }
+  main .desplazamiento {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    margin: auto; }
+    main .desplazamiento i {
+      color: #FDE2FF;
+      font-size: 30px; }
+      main .desplazamiento i:hover {
+        opacity: .7;
+        cursor: pointer; }
+      main .desplazamiento i:active {
+        opacity: .9; }
+    main .desplazamiento .numeros button {
+      margin: 0 2px; }
+  main .contenedorPeliculas {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px; }
+    main .contenedorPeliculas .cajaPelicula {
+      width: 33%;
+      padding: 10px;
+      border: 1px solid #838383;
+      border-radius: 5px;
+      background-color: #635D7E;
+      margin: 5px 0; }
+      main .contenedorPeliculas .cajaPelicula img {
+        width: 200px;
+        height: 300px;
+        display: block;
+        margin: auto; }
+      main .contenedorPeliculas .cajaPelicula .contenidoPelicula {
+        font-family: "Newsreader:ital";
+        color: #FDE2FF;
+        margin-top: 10px; }
+
+.rojo {
+  color: red; }
+
+.verde {
+  color: yellow; }
 
 /*# sourceMappingURL=index.css.map */
