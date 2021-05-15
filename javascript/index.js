@@ -1,6 +1,7 @@
 $(document).ready(function(){
     LlenarNumeros();
-    cargarContenido('1');
+    cargarContenido(1);
+    var valorNext = 1, valorPrev = 1;
 
     $("#numeros button").click(function(){
         if ($(this).hasClass('btn-outline-secondary')){
@@ -11,30 +12,74 @@ $(document).ready(function(){
         }
         $("#contenedorPeliculas").empty();
         cargarContenido($(this).text());
+        valorNext = parseInt($(this).text());
     });
 
     $("#presDerecha").click(function(){
         var siguiente = $('#numeros .btn-secondary').next('button');
+
         if (!$("#numeros button:last").hasClass("btn-secondary")){
+            valorNext = parseInt($("#numeros .btn-secondary").text()) + 1;
+            $("#contenedorPeliculas").empty();
+            cargarContenido(valorNext);
+
             $("#numeros button").removeClass('btn-secondary');
             $("#numeros button").addClass('btn-outline-secondary');
             siguiente.removeClass('btn-outline-secondary');
             siguiente.addClass('btn-secondary');
-        }
-        /*if (parseInt($("#numeros button:last").text()) < 500){
-            for(let i = 0; i < 12; i++) {
+        }else {
+            if(parseInt($("#btn8").text()) < 500){
+                valorNext = parseInt($("#numeros .btn-secondary").text()) + 1;
+                $("#contenedorPeliculas").empty();
+                cargarContenido(valorNext);
 
+                $("#numeros button").removeClass('btn-secondary');
+                $("#numeros button").addClass('btn-outline-secondary');
+                $("#btn1").removeClass('btn-outline-secondary');
+                $("#btn1").addClass('btn-secondary');
             }
-        }*/ //$("#numeros").children() aca trabajar mañana
+            var valorUltimoBtn = parseInt($("#numeros button:last").text());
+            for(let i = 1; i < 13; i++){
+                if (valorUltimoBtn+i <= 500){
+                    $("#btn"+i+"").text(valorUltimoBtn+i);
+                }else {
+                    $("#btn"+i+"").hide();
+                }
+            }
+        }
     });
 
     $("#presIzquierda").click(function(){
         var anterior = $('#numeros .btn-secondary').prev('button');
+        
         if (!$("#numeros button:first").hasClass("btn-secondary")){
+            valorPrev = parseInt($("#numeros .btn-secondary").text()) - 1;
+            $("#contenedorPeliculas").empty();
+            cargarContenido(valorPrev);
+
             $("#numeros button").removeClass('btn-secondary');
             $("#numeros button").addClass('btn-outline-secondary');
             anterior.removeClass('btn-outline-secondary');
             anterior.addClass('btn-secondary');
+        }else {
+            if(parseInt($("#btn1").text()) > 1){
+                valorPrev = parseInt($("#numeros .btn-secondary").text()) - 1;
+                $("#contenedorPeliculas").empty();
+                cargarContenido(valorPrev);
+
+                $("#numeros button").removeClass('btn-secondary');
+                $("#numeros button").addClass('btn-outline-secondary');
+                $("#btn12").removeClass('btn-outline-secondary');
+                $("#btn12").addClass('btn-secondary');
+                $("#numeros button").show();
+            }
+
+            var valorPrimerBtn = parseInt($("#numeros button:first").text());
+            for(let i = 1; i < 13; i++){
+                if (valorPrimerBtn - (13-i) >= 1){
+                    $("#btn"+i+"").text(valorPrimerBtn - (13-i));
+                }
+            }            
         }
     });
 
@@ -42,10 +87,10 @@ $(document).ready(function(){
         var soloUnaVez = true;
         for(let i = 0; i < 12; i++){
             if (soloUnaVez) {
-                $("#numeros").append('<button class="btn btn-secondary">'+(i+1)+'</button>')
+                $("#numeros").append('<button class="btn btn-secondary" id="btn'+(i+1)+'">'+(i+1)+'</button>')
                 soloUnaVez = false;
             }else {
-                $("#numeros").append('<button class="btn btn-outline-secondary">'+(i+1)+'</button>')
+                $("#numeros").append('<button class="btn btn-outline-secondary" id="btn'+(i+1)+'">'+(i+1)+'</button>')
             }
         }
     }
