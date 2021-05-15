@@ -59,12 +59,19 @@ main {
       main .contenedorPeliculas .cajaPelicula .contenidoPelicula {
         font-family: "Newsreader:ital";
         color: #FDE2FF;
-        margin-top: 10px; }
-
-.rojo {
-  color: red; }
-
-.verde {
-  color: yellow; }
+        margin-top: 10px;
+        /*                 .tituloPelicula {
+                            h5 {
+            
+                            }
+                        }
+                        .descripcionPelicula {
+                            p {
+            
+                            }
+                        }
+                        button {
+            
+                        } */ }
 
 /*# sourceMappingURL=index.css.map */
