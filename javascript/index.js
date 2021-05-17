@@ -1,7 +1,8 @@
 $(document).ready(function(){
     LlenarNumeros();
-    cargarContenido(1);
-    var valorNext = 1, valorPrev = 1;
+    var valorNext = 1, valorPrev = 1, idiomaSeleccionado = 'es', idGenerosSeleccionados = -1;
+    cargarContenido(1, idiomaSeleccionado);
+    mostrarGeneros(idiomaSeleccionado);
 
     $("#numeros button").click(function(){
         if ($(this).hasClass('btn-outline-secondary')){
@@ -11,7 +12,7 @@ $(document).ready(function(){
             $(this).addClass('btn-secondary');
         }
         $("#contenedorPeliculas").empty();
-        cargarContenido($(this).text());
+        cargarContenido($(this).text(), idiomaSeleccionado);
         valorNext = parseInt($(this).text());
     });
 
@@ -21,7 +22,7 @@ $(document).ready(function(){
         if (!$("#numeros button:last").hasClass("btn-secondary")){
             valorNext = parseInt($("#numeros .btn-secondary").text()) + 1;
             $("#contenedorPeliculas").empty();
-            cargarContenido(valorNext);
+            cargarContenido(valorNext,idiomaSeleccionado);
 
             $("#numeros button").removeClass('btn-secondary');
             $("#numeros button").addClass('btn-outline-secondary');
@@ -31,7 +32,7 @@ $(document).ready(function(){
             if(parseInt($("#btn8").text()) < 500){
                 valorNext = parseInt($("#numeros .btn-secondary").text()) + 1;
                 $("#contenedorPeliculas").empty();
-                cargarContenido(valorNext);
+                cargarContenido(valorNext,idiomaSeleccionado);
 
                 $("#numeros button").removeClass('btn-secondary');
                 $("#numeros button").addClass('btn-outline-secondary');
@@ -55,7 +56,7 @@ $(document).ready(function(){
         if (!$("#numeros button:first").hasClass("btn-secondary")){
             valorPrev = parseInt($("#numeros .btn-secondary").text()) - 1;
             $("#contenedorPeliculas").empty();
-            cargarContenido(valorPrev);
+            cargarContenido(valorPrev, idiomaSeleccionado);
 
             $("#numeros button").removeClass('btn-secondary');
             $("#numeros button").addClass('btn-outline-secondary');
@@ -65,7 +66,7 @@ $(document).ready(function(){
             if(parseInt($("#btn1").text()) > 1){
                 valorPrev = parseInt($("#numeros .btn-secondary").text()) - 1;
                 $("#contenedorPeliculas").empty();
-                cargarContenido(valorPrev);
+                cargarContenido(valorPrev, idiomaSeleccionado);
 
                 $("#numeros button").removeClass('btn-secondary');
                 $("#numeros button").addClass('btn-outline-secondary');
@@ -83,6 +84,30 @@ $(document).ready(function(){
         }
     });
 
+    $("#listaIdiomas li").click(function(){
+        $("#contenedorPeliculas").empty();
+        idiomaSeleccionado = idiomas[$(this).text()]
+        cargarContenido($("#numeros .btn-secondary").text(), idiomaSeleccionado);
+        mostrarGeneros(idiomaSeleccionado);
+    });
+    var idiomas = {English:'en', Italiano:'it',Francais:'fr',日本語:'ja',Portugues:'pt',Pусский:'ru',Español:'es'};
+
+    function mostrarGeneros(idioma){
+        $.get({
+            url:'https://api.themoviedb.org/3/genre/movie/list?api_key=c485490fd1f63bb346da39f1f5f9950f&language='+idioma,
+            success: function(respuesta){
+                $("#listaGeneros").empty();
+                $("#listaGeneros").append('<li><a class="dropdown-item" id="-1" href="#">Todas</a></li>');
+                for(let i = 0; i < respuesta.genres.length; i++){
+                    $("#listaGeneros").append('<li><a class="dropdown-item" id="'+respuesta.genres[i].id+'" href="#">'+respuesta.genres[i].name+'</a></li>');
+                }
+            },
+            error: function(errorRespuesta){
+                console.log(errorRespuesta);
+            }
+        });
+    }
+    
     function LlenarNumeros(){
         var soloUnaVez = true;
         for(let i = 0; i < 12; i++){
@@ -94,32 +119,73 @@ $(document).ready(function(){
             }
         }
     }
-    function cargarContenido(numeroPagina){
-        $.get({
-            url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page='+numeroPagina+'&with_watch_monetization_types=flatrate',
-            success: function(respuesta){
-                for(let i = 0; i < respuesta.results.length; i++) {
-                    $("#contenedorPeliculas").append("<div class='cajaPelicula'>"+
-                                    "<img src='https://image.tmdb.org/t/p/original"+respuesta.results[i].poster_path+"' alt=''>"+
-                                    "<div class='contenidoPelicula'>"+
-                                        "<div class='tituloPelicula'>"+
-                                            "<h5>"+respuesta.results[i].title+"</h5>"+
+    
+    function cargarContenido(numeroPagina, idioma){
+        if(idGenerosSeleccionados == -1){
+            $.get({
+                url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language='+idioma+'&sort_by=popularity.desc&include_adult=false&include_video=true&page='+numeroPagina+'&with_watch_monetization_types=flatrate',
+                success: function(respuesta){
+                    for(let i = 0; i < respuesta.results.length; i++) {
+                        $("#contenedorPeliculas").append("<div class='cajaPelicula'>"+
+                                        "<img src='https://image.tmdb.org/t/p/original"+respuesta.results[i].poster_path+"' alt=''>"+
+                                        "<div class='contenidoPelicula'>"+
+                                            "<div class='tituloPelicula'>"+
+                                                "<h5>"+respuesta.results[i].title+"</h5>"+
+                                            "</div>"+
+                                            "<div class='descripcionPelicula'>"+
+                                                "<p>"+respuesta.results[i].overview+"</p>"+
+                                            "</div>"+
+                                            "<button class='btn btn-secondary'>Más...</button>"+
                                         "</div>"+
-                                        "<div class='descripcionPelicula'>"+
-                                            "<p>"+respuesta.results[i].overview+"</p>"+
-                                        "</div>"+
-                                        "<button class='btn btn-secondary'>Más...</button>"+
-                                    "</div>"+
-                                "</div>");
-                    //console.log(respuesta.results[i]);
+                                    "</div>");
+                        //console.log(respuesta.results[i]);
+                    }
+                    
+                },
+                error: function(errorRespuesta){
+                    console.log(errorRespuesta);
                 }
-                
-            },
-            error: function(errorRespuesta){
-                console.log(errorRespuesta);
-            }
-        });      
+            });    
+        }
+        else{
+            $.get({
+                url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language='+idioma+'&sort_by=popularity.desc&include_adult=false&include_video=true&page='+numeroPagina+'&with_watch_monetization_types=flatrate&with_genres='+idGenerosSeleccionados,
+                success: function(respuesta){
+                    for(let i = 0; i < respuesta.results.length; i++) {
+                        $("#contenedorPeliculas").append("<div class='cajaPelicula'>"+
+                                        "<img src='https://image.tmdb.org/t/p/original"+respuesta.results[i].poster_path+"' alt=''>"+
+                                        "<div class='contenidoPelicula'>"+
+                                            "<div class='tituloPelicula'>"+
+                                                "<h5>"+respuesta.results[i].title+"</h5>"+
+                                            "</div>"+
+                                            "<div class='descripcionPelicula'>"+
+                                                "<p>"+respuesta.results[i].overview+"</p>"+
+                                            "</div>"+
+                                            "<button class='btn btn-secondary'>Más...</button>"+
+                                        "</div>"+
+                                    "</div>");
+                        //console.log(respuesta.results[i]);
+                    }
+                    
+                },
+                error: function(errorRespuesta){
+                    console.log(errorRespuesta);
+                }
+            });
+        }  
     }
+
+
+     /* $.get({
+        //url:'https://api.themoviedb.org/3/configuration/languages?api_key=c485490fd1f63bb346da39f1f5f9950f',
+        url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=28&with_watch_monetization_types=flatrate',
+        success: function(respuesta){
+            console.log(respuesta);
+        },
+        error: function(errorRespuesta){
+            console.log(errorRespuesta);
+        }
+    });  */
     /* $.get({
         url:'https://api.themoviedb.org/3/movie/75780/images?api_key=c485490fd1f63bb346da39f1f5f9950f',
         success: function(respuesta){
