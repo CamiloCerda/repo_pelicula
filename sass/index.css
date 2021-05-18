@@ -50,7 +50,8 @@ main {
       border: 1px solid #838383;
       border-radius: 5px;
       background-color: #3f3f44;
-      margin: 5px 0; }
+      margin: 5px 0;
+      text-align: center; }
       main .contenedorPeliculas .cajaPelicula img {
         width: 200px;
         height: 300px;
@@ -60,18 +61,138 @@ main {
         font-family: "Newsreader:ital";
         color: #fff9ff;
         margin-top: 10px;
-        /*                 .tituloPelicula {
-                            h5 {
-            
-                            }
-                        }
-                        .descripcionPelicula {
-                            p {
-            
-                            }
-                        }
-                        button {
-            
-                        } */ }
+        width: 100%; }
+        main .contenedorPeliculas .cajaPelicula .contenidoPelicula .tituloPelicula h5 {
+          font-size: 21px; }
+        main .contenedorPeliculas .cajaPelicula .contenidoPelicula .descripcionPelicula p {
+          text-align: justify; }
+      main .contenedorPeliculas .cajaPelicula button {
+        width: 30%; }
+        main .contenedorPeliculas .cajaPelicula button i {
+          font-size: 25px;
+          color: #fff9ff; }
+
+.cuerpoModalPelicula .contenedorFotosModal {
+  display: flex;
+  flex-direction: column; }
+  .cuerpoModalPelicula .contenedorFotosModal img {
+    width: 50%;
+    margin: 20px auto; }
+
+@media screen and (max-width: 1000px) {
+  main .desplazamiento {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /*             i {
+                    color: $colorLetraPrincipal;
+                    font-size: 30px;
+                    &:hover {
+                        opacity: .7;
+                        cursor: pointer;
+                    }
+                    &:active {
+                        opacity: .9;
+                    }
+                }*/ }
+    main .desplazamiento .numeros {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap; }
+      main .desplazamiento .numeros button {
+        margin: 0 2px; }
+  main .contenedorPeliculas {
+    /*             display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                padding: 20px; */ }
+    main .contenedorPeliculas .cajaPelicula {
+      width: 49%;
+      /*                 padding: 10px;
+                      border: 1px solid #838383;
+                      border-radius: 5px;
+                      background-color: #3f3f44;
+                      margin: 5px 0;
+                      text-align: center; */
+      /*                 img {
+                          width: 200px;
+                          height: 300px;
+                          display: block;
+                          margin: auto;
+                      } */
+      /*                 .contenidoPelicula {
+                          font-family: $fuentePrincipal;
+                          color: $colorLetraPrincipal;
+                          margin-top: 10px;
+                          width: 100%;
+                          //background-color: red;
+                          .tituloPelicula {
+                              h5 {
+                                  font-size: 21px;
+                              }
+                          }
+                          .descripcionPelicula {
+                              p {
+                                  text-align: justify;
+                              }
+                          }
+                      }
+                      button {
+                          
+                          width: 30%;
+                          i {
+                              font-size: 25px;
+                          }
+                      }  */ } }
+@media screen and (max-width: 600px) {
+  main .contenedorPeliculas {
+    /*             display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                padding: 20px; */ }
+    main .contenedorPeliculas .cajaPelicula {
+      width: 100%;
+      /*                 padding: 10px;
+                      border: 1px solid #838383;
+                      border-radius: 5px;
+                      background-color: #3f3f44;
+                      margin: 5px 0;
+                      text-align: center; */
+      /*                 .contenidoPelicula {
+                          font-family: $fuentePrincipal;
+                          color: $colorLetraPrincipal;
+                          margin-top: 10px;
+                          width: 100%;
+                          //background-color: red;
+                          .tituloPelicula {
+                              h5 {
+                                  font-size: 21px;
+                              }
+                          }
+                          .descripcionPelicula {
+                              p {
+                                  text-align: justify;
+                              }
+                          }
+                      }
+                      button {
+                          
+                          width: 30%;
+                          i {
+                              font-size: 25px;
+                          }
+                      }  */ }
+      main .contenedorPeliculas .cajaPelicula img {
+        width: 100%;
+        /*                     height: 300px;
+                            display: block;
+                            margin: auto; */ }
+
+  .cuerpoModalPelicula .contenedorFotosModal {
+    /*             display: flex;
+                flex-direction: column; */ }
+    .cuerpoModalPelicula .contenedorFotosModal img {
+      width: 90%; } }
 
 /*# sourceMappingURL=index.css.map */

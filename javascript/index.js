@@ -90,7 +90,8 @@ $(document).ready(function(){
         cargarContenido($("#numeros .btn-secondary").text(), idiomaSeleccionado);
         mostrarGeneros(idiomaSeleccionado);
     });
-    var idiomas = {English:'en', Italiano:'it',Francais:'fr',日本語:'ja',Portugues:'pt',Pусский:'ru',Español:'es'};
+    var idiomas = {English:'en', Italiano:'it',Francais:'fr',日本語:'ja',Portugues:'pt',Pусский:'ru',Español:'es'}
+    
 
     function mostrarGeneros(idioma){
         $.get({
@@ -101,6 +102,15 @@ $(document).ready(function(){
                 for(let i = 0; i < respuesta.genres.length; i++){
                     $("#listaGeneros").append('<li><a class="dropdown-item" id="'+respuesta.genres[i].id+'" href="#">'+respuesta.genres[i].name+'</a></li>');
                 }
+                $("#liGeneros li a").click(function(){
+                    $("#contenedorPeliculas").empty();
+                    $("#numeros button").removeClass('btn-secondary');
+                    $("#numeros button").addClass('btn-outline-secondary');
+                    $("#btn1").removeClass('btn-outline-secondary');
+                    $("#btn1").addClass('btn-secondary');
+                    idGenerosSeleccionados = $(this).attr('id');
+                    cargarContenido(1, idiomaSeleccionado);
+                });
             },
             error: function(errorRespuesta){
                 console.log(errorRespuesta);
@@ -125,6 +135,7 @@ $(document).ready(function(){
             $.get({
                 url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language='+idioma+'&sort_by=popularity.desc&include_adult=false&include_video=true&page='+numeroPagina+'&with_watch_monetization_types=flatrate',
                 success: function(respuesta){
+                    //console.log(respuesta);
                     for(let i = 0; i < respuesta.results.length; i++) {
                         $("#contenedorPeliculas").append("<div class='cajaPelicula'>"+
                                         "<img src='https://image.tmdb.org/t/p/original"+respuesta.results[i].poster_path+"' alt=''>"+
@@ -135,12 +146,15 @@ $(document).ready(function(){
                                             "<div class='descripcionPelicula'>"+
                                                 "<p>"+respuesta.results[i].overview+"</p>"+
                                             "</div>"+
-                                            "<button class='btn btn-secondary'>Más...</button>"+
                                         "</div>"+
+                                        "<button class='btn btn-secondary' id='"+respuesta.results[i].id+"' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='fas fa-search-plus'></i></button>"+
                                     "</div>");
                         //console.log(respuesta.results[i]);
                     }
                     
+                    $("#contenedorPeliculas button").click(function(){
+                        buscarImagenesPelicula($(this).attr('id'));
+                    });
                 },
                 error: function(errorRespuesta){
                     console.log(errorRespuesta);
@@ -161,12 +175,14 @@ $(document).ready(function(){
                                             "<div class='descripcionPelicula'>"+
                                                 "<p>"+respuesta.results[i].overview+"</p>"+
                                             "</div>"+
-                                            "<button class='btn btn-secondary'>Más...</button>"+
                                         "</div>"+
+                                        "<button class='btn btn-secondary' id='"+respuesta.results[i].id+"'><i class='fas fa-search-plus'></i></button>"+
                                     "</div>");
                         //console.log(respuesta.results[i]);
                     }
-                    
+                    $("#contenedorPeliculas button").click(function(){
+                        buscarImagenesPelicula($(this).attr('id'));
+                    });
                 },
                 error: function(errorRespuesta){
                     console.log(errorRespuesta);
@@ -175,34 +191,25 @@ $(document).ready(function(){
         }  
     }
 
-
-     /* $.get({
-        //url:'https://api.themoviedb.org/3/configuration/languages?api_key=c485490fd1f63bb346da39f1f5f9950f',
-        url:'https://api.themoviedb.org/3/discover/movie?api_key=c485490fd1f63bb346da39f1f5f9950f&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=28&with_watch_monetization_types=flatrate',
-        success: function(respuesta){
-            console.log(respuesta);
-        },
-        error: function(errorRespuesta){
-            console.log(errorRespuesta);
-        }
-    });  */
-    /* $.get({
-        url:'https://api.themoviedb.org/3/movie/75780/images?api_key=c485490fd1f63bb346da39f1f5f9950f',
-        success: function(respuesta){
-            for(let i = 0; i < respuesta.backdrops.length; i++){
-                //$('body').append('<img src="https://image.tmdb.org/t/p/original'+respuesta.backdrops[i].file_path+'" alt="">');
-                //$('body').append('<img src="https://image.tmdb.org/t/p/w500'+respuesta.backdrops[i].file_path+'" alt="">');
+    function buscarImagenesPelicula(id){
+        $.get({
+            url:'https://api.themoviedb.org/3/movie/'+id+'/images?api_key=c485490fd1f63bb346da39f1f5f9950f',
+            success: function(respuesta){
+                //console.log(respuesta);
+                $("#cuerpoModalPelicula #contenedorFotosModal").empty();
+                $.each(respuesta.backdrops, function(indice,elemento){
+                    console.log(indice, elemento.file_path);
+                    $("#cuerpoModalPelicula #contenedorFotosModal").append('<img src="https://image.tmdb.org/t/p/original'+elemento.file_path+'" alt="">');
+                });
+                
+                console.log('posters')
+                $.each(respuesta.posters, function(indice, elemento){
+                    console.log(indice, elemento);
+                })
+            },
+            error: function(errorRespuesta){
+                console.log(errorRespuesta);
             }
-            console.log(respuesta.backdrops);
-            
-            for(let i = 0; i < respuesta.posters.length; i++){
-                //$('body').append('<img src="https://image.tmdb.org/t/p/original'+respuesta.posters[i].file_path+'" alt="">');
-                //$('body').append('<img src="https://image.tmdb.org/t/p/w500'+respuesta.posters[i].file_path+'" alt="">');
-            }
-            console.log(respuesta.posters);
-        },
-        error: function(errorRespuesta){
-            console.log(errorRespuesta);
-        }
-    }); */
+        });
+    }
 });
