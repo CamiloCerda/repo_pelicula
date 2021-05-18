@@ -198,13 +198,14 @@ $(document).ready(function(){
                 console.log('aca')
                 $("#cuerpoModalPelicula #contenedorFotosModal").empty();
                 $.each(respuesta.backdrops, function(indice,elemento){
-                    console.log(indice, elemento.file_path);
+                    //console.log(indice, elemento.file_path);
                     $("#cuerpoModalPelicula #contenedorFotosModal").append('<img src="https://image.tmdb.org/t/p/original'+elemento.file_path+'" alt="">');
                 });
                 
                 console.log('posters')
                 $.each(respuesta.posters, function(indice, elemento){
-                    console.log(indice, elemento);
+                    //console.log(indice, elemento.file_path);
+                    $("#cuerpoModalPelicula #contenedorFotosModal").append('<img src="https://image.tmdb.org/t/p/original'+elemento.file_path+'" alt="">');
                 })
             },
             error: function(errorRespuesta){
