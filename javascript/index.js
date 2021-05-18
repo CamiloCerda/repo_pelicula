@@ -176,7 +176,7 @@ $(document).ready(function(){
                                                 "<p>"+respuesta.results[i].overview+"</p>"+
                                             "</div>"+
                                         "</div>"+
-                                        "<button class='btn btn-secondary' id='"+respuesta.results[i].id+"'><i class='fas fa-search-plus'></i></button>"+
+                                        "<button class='btn btn-secondary' id='"+respuesta.results[i].id+"' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='fas fa-search-plus'></i></button>"+
                                     "</div>");
                         //console.log(respuesta.results[i]);
                     }
@@ -195,7 +195,7 @@ $(document).ready(function(){
         $.get({
             url:'https://api.themoviedb.org/3/movie/'+id+'/images?api_key=c485490fd1f63bb346da39f1f5f9950f',
             success: function(respuesta){
-                //console.log(respuesta);
+                console.log('aca')
                 $("#cuerpoModalPelicula #contenedorFotosModal").empty();
                 $.each(respuesta.backdrops, function(indice,elemento){
                     console.log(indice, elemento.file_path);
